@@ -8,9 +8,6 @@ import { ExecutorModule } from './executor.module';
 import { DefaultExecutorService } from './executor.service';
 
 const TEST_FILE_PATH = './dev_test.csv';
-const content = fs.readFileSync(TEST_FILE_PATH, {
-  encoding: 'utf-8',
-});
 
 const it = smoke(__filename);
 describe('executor flow', () => {
@@ -25,12 +22,11 @@ describe('executor flow', () => {
   });
 
   it('Process Race Info', async () => {
-    const lines: string[] = parse(content, {
-      columns: false,
-      skip_empty_lines: true,
-      from_line: 2,
-    });
-    const exampleRaceData = lines[1];
+    const exampleRaceData = [
+      '1675486800000000.0',
+      'RACE_DATA',
+      '{"race_number": 3, "horses": ["RUN RUN COOL", "SHOW RESPECT", "SUPER FORTUNE", "WE ARE HERO", "QUADRUPLE DOUBLE", "HAPPY MISSION", "PARTY WARRIOR", "LUCKY FUN", "TALENTS SUPREMO", "DECRYPT", "DIAMOND FLARE", "LEAN MASTER", "EIGHT TRIGRAMS", "SAVVY DELIGHT"]}',
+    ];
 
     await (executorService as DefaultExecutorService).processData({
       eventType: exampleRaceData[1],
@@ -61,12 +57,11 @@ describe('executor flow', () => {
   });
 
   it('PLACE_BET test', async () => {
-    const lines: string[] = parse(content, {
-      columns: false,
-      skip_empty_lines: true,
-      from_line: 2,
-    });
-    const exampleRaceData = lines[211];
+    const exampleRaceData = [
+      '1675573247000000.0',
+      'PLACE_BETS',
+      '{"race_number": 1}',
+    ];
     await (executorService as DefaultExecutorService).processData({
       eventType: exampleRaceData[1],
       timestamp: exampleRaceData[0],
@@ -75,12 +70,11 @@ describe('executor flow', () => {
   });
 
   it('DIVIDENDS test', async () => {
-    const lines: string[] = parse(content, {
-      columns: false,
-      skip_empty_lines: true,
-      from_line: 2,
-    });
-    const exampleRaceData = lines[248];
+    const exampleRaceData = [
+      '1675573683000000.0',
+      'DIVIDENDS',
+      '{"race_number": 1, "dividends": {"ERNEST FEELING": 143.5}}',
+    ];
     await (executorService as DefaultExecutorService).processData({
       eventType: exampleRaceData[1],
       timestamp: exampleRaceData[0],
@@ -100,8 +94,8 @@ describe('Execute Test with file', () => {
     executorService = module.get(ExecutorService);
   });
 
-  it('Updating Odds', async () => {
-    const content = fs.readFileSync('./dev_test.csv', {
+  it('Batch testing', async () => {
+    const content = fs.readFileSync(TEST_FILE_PATH, {
       encoding: 'utf-8',
     });
 

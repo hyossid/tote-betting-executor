@@ -13,7 +13,7 @@
     "test": "jest",
     "build": "tsc",
     "prepare": "husky install",
-    "test:file": " node 'node_modules/.bin/jest' '/Users/sidney/tote-betting-executor/tote-betting-executor/packages/services/executor/executor.smoke.spec.ts' -t 'Execute Test with file'"
+    "test:file": "node 'node_modules/.bin/jest' '/Users/sidney/tote-bet/tote-betting-executor/packages/services/executor/executor.smoke.spec.ts' -t 'Execute Test with file Batch testing'"
   },
   "lint-staged": {
     "*.{js,json,md,ts,tsx,graphql}": [
