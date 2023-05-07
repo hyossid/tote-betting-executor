@@ -73,6 +73,20 @@ describe('executor flow', () => {
       payLoad: exampleRaceData[2],
     });
   });
+
+  it('DIVIDENDS test', async () => {
+    const lines: string[] = parse(content, {
+      columns: false,
+      skip_empty_lines: true,
+      from_line: 2,
+    });
+    const exampleRaceData = lines[248];
+    await (executorService as DefaultExecutorService).processData({
+      eventType: exampleRaceData[1],
+      timestamp: exampleRaceData[0],
+      payLoad: exampleRaceData[2],
+    });
+  });
 });
 
 describe('Execute Test with file', () => {

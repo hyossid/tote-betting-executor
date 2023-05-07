@@ -25,19 +25,20 @@ export class DefaultExecutorService implements ExecutorService {
       case 'RACE_DATA':
         this.logger.log(`[INFO] Received new RACE_DATA type ${raceNumber}`);
         // Info : Can add additional logic after receiving initial race info
+        // await this.handleRaceData({ raceNumber, timestamp, payLoad });
         break;
       case 'UPDATE_ODDS':
         this.logger.log(
           `[INFO] Received new UPDATE_ODDS, race number :  ${raceNumber}, Updating odds`,
         );
-        await this.updateOdds({ raceNumber, timestamp, payLoad });
+        await this.handleUpdateOdds({ raceNumber, timestamp, payLoad });
         break;
       case 'PLACE_BETS':
         this.logger.log(
           `[INFO] Received new PLACE_BETS type ${raceNumber}, starting execution`,
         );
         result = await this.getResultFromModel(raceNumber);
-        this.executeBetting({
+        await this.handleExecute({
           raceNumber,
           horseName: result.horseName,
           amount: result.amount,
@@ -47,10 +48,13 @@ export class DefaultExecutorService implements ExecutorService {
       case 'START_RACE':
         this.logger.log(`[INFO] Received new START_RACE type ${raceNumber}`);
         // Info : Can add additional logic after race starts
+        // await this.handleStart({ raceNumber, timestamp, payLoad });
+
         break;
-      case 'DIVIDENS':
-        this.logger.log(`[INFO] Received DIVIDENS type ${raceNumber}`);
+      case 'DIVIDENDS':
+        this.logger.log(`[INFO] Received DIVIDENDS type ${raceNumber}`);
         // Info : Can add additional logic after receiving final dividens
+        await this.handleDividends({ raceNumber, payLoad });
         break;
       default:
         this.logger.log(
@@ -61,7 +65,6 @@ export class DefaultExecutorService implements ExecutorService {
 
     // Always save received data
     await this.insertData({ eventType, raceNumber, timestamp, payLoad });
-
     return;
   }
 
@@ -80,7 +83,11 @@ export class DefaultExecutorService implements ExecutorService {
     return;
   }
 
-  async updateOdds({ raceNumber, timestamp, payLoad }: any): Promise<void> {
+  async handleUpdateOdds({
+    raceNumber,
+    timestamp,
+    payLoad,
+  }: any): Promise<void> {
     const parsedPayload = JSON.parse(payLoad);
     const odds = parsedPayload.odds;
     const sortArray = [];
@@ -104,11 +111,35 @@ export class DefaultExecutorService implements ExecutorService {
     return;
   }
 
-  async executeBetting({ raceNumber, horseName, amount }: any) {
+  async handleExecute({ raceNumber, horseName, amount }: any) {
     this.logger.log(
       `[INFO] Executing race ${raceNumber}, with ${horseName}; amount : ${amount}`,
     );
+
     // Info : Execution details can be implemented here
+    await this.executorRepository.insertExecutedBet({
+      timestamp: Date.now(),
+      horse: horseName,
+      amount,
+      raceNumber,
+    });
+
+    return;
+  }
+
+  async handleDividends({ raceNumber, payLoad }: any) {
+    this.logger.log(`[INFO] Saving Result of race ${raceNumber}`);
+
+    const parsedPayload = JSON.parse(payLoad);
+    const result = parsedPayload.dividends;
+    const horse = Object.keys(result)[0];
+    const dividends = result[horse];
+    await this.executorRepository.insertRaceResult({
+      horse,
+      dividends,
+      raceNumber,
+    });
+
     return;
   }
 

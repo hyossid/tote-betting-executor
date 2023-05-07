@@ -11,3 +11,16 @@ export interface LatestOddsSchema {
   candidate: string;
   raceNumber: number;
 }
+
+export interface ExecutedBetSchema {
+  timestamp: number;
+  horse: string;
+  raceNumber: number;
+  amount: number;
+}
+
+export interface RaceResultSchema {
+  dividens: number;
+  horse: string;
+  raceNumber: number;
+}

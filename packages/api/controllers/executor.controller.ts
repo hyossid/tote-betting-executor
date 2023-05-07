@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Logger, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Logger, Post } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { ExecutorService } from '@root/services/executor/executor.interface';
 import { IsString } from 'class-validator';
@@ -39,6 +39,18 @@ export class ExecutorController {
       this.logger.debug(
         `[INFO] API Received Incoming Message of: ${eventType}`,
       );
+
+      return;
+    } catch (e) {
+      throw new Error(`[ERROR] Unexpected Error ${e}`);
+    }
+  }
+
+  @Get('/v1/race_result')
+  async getRaceResult(): Promise<void> {
+    try {
+      // TODO: race result
+      this.logger.debug(`[INFO] API Received Race Result retreive request `);
 
       return;
     } catch (e) {

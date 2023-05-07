@@ -1,0 +1,3 @@
+table:
+  name: executed_bet
+  schema: horse_racing_data
