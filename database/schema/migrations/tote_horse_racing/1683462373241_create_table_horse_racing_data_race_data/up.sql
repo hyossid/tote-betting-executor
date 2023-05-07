@@ -1,0 +1,1 @@
+CREATE SCHEMA "horse_racing_data"; CREATE TABLE "horse_racing_data"."race_data" ("event_type" varchar NOT NULL, "race_number" numeric NOT NULL, "payload" varchar NOT NULL, "timestamp" Timestamp NOT NULL, PRIMARY KEY ("timestamp","event_type","race_number") );COMMENT ON TABLE "horse_racing_data"."race_data" IS E'raw racing data ';
