@@ -10,7 +10,7 @@ import { DefaultExecutorService } from './executor.service';
 const TEST_FILE_PATH = './dev_test.csv';
 
 const it = smoke(__filename);
-describe('executor flow', () => {
+describe('Executor Flow', () => {
   let executorService: ExecutorService;
 
   beforeAll(async () => {
@@ -21,21 +21,21 @@ describe('executor flow', () => {
     executorService = module.get(ExecutorService);
   });
 
-  it('Process Race Info', async () => {
-    const exampleRaceData = [
+  it('Process type [RACE_DATA]', async () => {
+    const testData = [
       '1675486800000000.0',
       'RACE_DATA',
       '{"race_number": 3, "horses": ["RUN RUN COOL", "SHOW RESPECT", "SUPER FORTUNE", "WE ARE HERO", "QUADRUPLE DOUBLE", "HAPPY MISSION", "PARTY WARRIOR", "LUCKY FUN", "TALENTS SUPREMO", "DECRYPT", "DIAMOND FLARE", "LEAN MASTER", "EIGHT TRIGRAMS", "SAVVY DELIGHT"]}',
     ];
 
     await (executorService as DefaultExecutorService).processData({
-      eventType: exampleRaceData[1],
-      timestamp: exampleRaceData[0],
-      payLoad: exampleRaceData[2],
+      eventType: testData[1],
+      timestamp: testData[0],
+      payLoad: testData[2],
     });
   });
 
-  it('Updating Odds', async () => {
+  it('Process type [UPDATE_ODDS]', async () => {
     const content = fs.readFileSync('./dev_test.csv', {
       encoding: 'utf-8',
     });
@@ -47,38 +47,49 @@ describe('executor flow', () => {
     });
 
     for (let ind = 10; ind < 11; ind++) {
-      const exampleRaceData = lines[ind];
+      const testData = lines[ind];
       await (executorService as DefaultExecutorService).processData({
-        eventType: exampleRaceData[1],
-        timestamp: exampleRaceData[0],
-        payLoad: exampleRaceData[2],
+        eventType: testData[1],
+        timestamp: testData[0],
+        payLoad: testData[2],
       });
     }
   });
 
-  it('PLACE_BET test', async () => {
-    const exampleRaceData = [
-      '1675573247000000.0',
-      'PLACE_BETS',
-      '{"race_number": 1}',
-    ];
+  it('Process type [START_RACE]', async () => {
+    const testData = ['1675578956000000.0', 'START_RACE', '{"race_number": 4}'];
     await (executorService as DefaultExecutorService).processData({
-      eventType: exampleRaceData[1],
-      timestamp: exampleRaceData[0],
-      payLoad: exampleRaceData[2],
+      eventType: testData[1],
+      timestamp: testData[0],
+      payLoad: testData[2],
     });
   });
 
-  it('DIVIDENDS test', async () => {
-    const exampleRaceData = [
+  it('Process type [PLACE_BET]', async () => {
+    const testData = ['1675573247000000.0', 'PLACE_BETS', '{"race_number": 1}'];
+    await (executorService as DefaultExecutorService).processData({
+      eventType: testData[1],
+      timestamp: testData[0],
+      payLoad: testData[2],
+    });
+  });
+
+  it('Process type [DIVIDENDS]', async () => {
+    const testData = [
       '1675573683000000.0',
       'DIVIDENDS',
       '{"race_number": 1, "dividends": {"ERNEST FEELING": 143.5}}',
     ];
     await (executorService as DefaultExecutorService).processData({
-      eventType: exampleRaceData[1],
-      timestamp: exampleRaceData[0],
-      payLoad: exampleRaceData[2],
+      eventType: testData[1],
+      timestamp: testData[0],
+      payLoad: testData[2],
+    });
+  });
+
+  it('GET Result', async () => {
+    await (executorService as DefaultExecutorService).getRaceResult({
+      raceNumber: '1',
     });
   });
 });
@@ -106,11 +117,11 @@ describe('Execute Test with file', () => {
     });
 
     for (let ind = 0; ind < lines.length; ind++) {
-      const exampleRaceData = lines[ind];
+      const testData = lines[ind];
       await (executorService as DefaultExecutorService).processData({
-        eventType: exampleRaceData[1],
-        timestamp: exampleRaceData[0],
-        payLoad: exampleRaceData[2],
+        eventType: testData[1],
+        timestamp: testData[0],
+        payLoad: testData[2],
       });
     }
   });

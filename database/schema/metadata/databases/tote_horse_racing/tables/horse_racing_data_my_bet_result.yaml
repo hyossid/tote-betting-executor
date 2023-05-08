@@ -1,0 +1,3 @@
+table:
+  name: my_bet_result
+  schema: horse_racing_data

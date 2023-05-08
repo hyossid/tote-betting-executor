@@ -24,3 +24,13 @@ export interface RaceResultSchema {
   horse: string;
   raceNumber: number;
 }
+
+export interface MyBetResult {
+  race_number: string;
+  my_bet_horse: string;
+  my_bet_amount: number;
+  win_horse: string;
+  dividens: number;
+  result_amount: number;
+  result: string;
+}

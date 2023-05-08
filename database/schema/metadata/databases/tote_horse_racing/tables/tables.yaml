@@ -1,4 +1,5 @@
 - "!include horse_racing_data_executed_bet.yaml"
 - "!include horse_racing_data_latest_odds.yaml"
+- "!include horse_racing_data_my_bet_result.yaml"
 - "!include horse_racing_data_race_data.yaml"
 - "!include horse_racing_data_race_result.yaml"

@@ -4,6 +4,7 @@ import { sql } from 'slonik';
 import {
   ExecutedBetSchema,
   LatestOddsSchema,
+  MyBetResult,
   RaceDataSchema,
   RaceResultSchema,
 } from './executor.repository.sql';
@@ -127,5 +128,12 @@ export class ExecutorRepository {
         select *
         from horse_racing_data.latest_odds
         where race_number = ${params.raceNumber};`);
+  }
+
+  async getRaceResult(params: { raceNumber: string }) {
+    return await this.persistentService.pgPool.any(sql<MyBetResult>`
+    select *
+    from horse_racing_data.my_bet_result
+    where race_number = ${params.raceNumber};`);
   }
 }

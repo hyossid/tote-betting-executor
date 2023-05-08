@@ -13,7 +13,8 @@
     "test": "jest",
     "build": "tsc",
     "prepare": "husky install",
-    "test:file": "node 'node_modules/.bin/jest' '/Users/sidney/tote-bet/tote-betting-executor/packages/services/executor/executor.smoke.spec.ts' -t 'Execute Test with file Batch testing'"
+    "test:file": "node 'node_modules/.bin/jest' '/Users/sidney/tote-bet/tote-betting-executor/packages/services/executor/executor.smoke.spec.ts' -t 'Execute Test with file Batch testing'",
+    "test:e2e": " node 'node_modules/.bin/jest' '/Users/sidney/tote-bet/tote-betting-executor/packages/testing/api-test.spec.ts' -t 'E2E Testing'"
   },
   "lint-staged": {
     "*.{js,json,md,ts,tsx,graphql}": [
@@ -33,6 +34,7 @@
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.3.0",
+    "axios": "^1.4.0",
     "class-validator": "^0.14.0",
     "csv-parse": "^5.3.10",
     "fs": "^0.0.1-security",

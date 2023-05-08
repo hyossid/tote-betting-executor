@@ -2,6 +2,7 @@ import { Inject, Logger } from '@nestjs/common';
 import {
   CreateExecutorDto,
   ExecutorService,
+  ReleaseExecutorDto,
 } from '@root/services/executor/executor.interface';
 import { ExecutorRepository } from './executor.repository';
 
@@ -145,11 +146,8 @@ export class DefaultExecutorService implements ExecutorService {
 
   async getResultFromModel(raceNumber: string) {
     this.logger.log(`[INFO] Model RUNNING ${raceNumber}`);
-
     // Info : Model can be implemented here, currently just getting highest odds that db has
-
     const AMOUNT = 1; // amount fixed to 1
-
     const latestOdds = (
       await this.executorRepository.getLatestHorseRacingData({
         raceNumber,
@@ -157,6 +155,23 @@ export class DefaultExecutorService implements ExecutorService {
     )[0];
 
     return { horseName: latestOdds.candidate, amount: AMOUNT };
+  }
+
+  async getRaceResult({ raceNumber }: ReleaseExecutorDto) {
+    const raceResult = (
+      await this.executorRepository.getRaceResult({
+        raceNumber,
+      })
+    )[0];
+    return {
+      raceNumber: raceResult.race_number,
+      myBetHorse: raceResult.my_bet_horse,
+      myBetAmount: String(raceResult.my_bet_amount),
+      winHorse: raceResult.win_horse,
+      dividends: String(raceResult.dividens),
+      resultAmount: String(raceResult.result_amount),
+      result: raceResult.result,
+    };
   }
 }
 
