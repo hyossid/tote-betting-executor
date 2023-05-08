@@ -10,3 +10,6 @@
 - yarn test:e2e
 
 - Swagger generated at http://localhost:3003/swagger-api.json
+
+
+- Can always set alerts(telegram etc..)on each exception event 
