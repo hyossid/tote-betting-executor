@@ -13,3 +13,6 @@
 
 
 - Can always set alerts(telegram etc..)on each exception event 
+
+
+<img width="1013" alt="image" src="https://user-images.githubusercontent.com/34973707/236894753-545d150d-abb8-4c4f-99b5-6ed835623850.png">
