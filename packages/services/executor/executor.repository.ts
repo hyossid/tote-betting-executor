@@ -78,7 +78,7 @@ export class ExecutorRepository {
     horse: string;
     raceNumber: number;
   }) {
-    const timeDate = new Date(Number(params.timestamp) / 1000).toISOString();
+    const timeDate = new Date(Number(params.timestamp)).toISOString();
     await this.persistentService.pgPool.transaction(
       async (conn: { one: (arg0: any) => any }) => {
         const insertedData = await conn.one(sql<ExecutedBetSchema>`

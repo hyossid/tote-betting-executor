@@ -4,13 +4,16 @@ import {
   ExecutorService,
   ReleaseExecutorDto,
 } from '@root/services/executor/executor.interface';
+import { CustomModuleService } from '../custom-module/custom-module.interface';
 import { ExecutorRepository } from './executor.repository';
 
 export class DefaultExecutorService implements ExecutorService {
   private logger = new Logger(DefaultExecutorService.name);
   constructor(
     @Inject(ExecutorRepository)
+    @Inject(CustomModuleService)
     private readonly executorRepository: ExecutorRepository,
+    private readonly customModuleService: CustomModuleService,
   ) {}
 
   async processData({
@@ -146,13 +149,19 @@ export class DefaultExecutorService implements ExecutorService {
 
   async getResultFromModel(raceNumber: string) {
     this.logger.log(`[INFO] Model RUNNING ${raceNumber}`);
-    // Info : Model can be implemented here, currently just getting highest odds that db has
+
     const AMOUNT = 1; // amount fixed to 1
     const latestOdds = (
       await this.executorRepository.getLatestHorseRacingData({
         raceNumber,
       })
     )[0];
+
+    // Info : Model can be implemented here, currently just getting highest odds that db has
+    // This snippet is just to show how module can be implemented
+    const data = await this.customModuleService.processData({
+      data: latestOdds,
+    });
 
     return { horseName: latestOdds.candidate, amount: AMOUNT };
   }
