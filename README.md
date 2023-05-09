@@ -1,7 +1,7 @@
 # tote-betting-executor 
 - Tote-betting-executor is nest.js based api server that can automate your tote-betting startegy in HKJC. 
 - This project is composed of Postgres DB, hasura console for monitoring and graphql(if needed) and core Nest.js api server. 
-- Your model can be implemented under `services` and just plug to the existing executor service to apply your model to betting. 
+- Your model can be implemented under `services/custom-module` and just plug to the existing executor service to apply your model to betting. 
 
 --- 
 
