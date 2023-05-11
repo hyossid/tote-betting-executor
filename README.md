@@ -36,6 +36,7 @@ yarn test:e2e // test whole e2e test covering api to execution results.
 - API documentation swagger is generated at http://localhost:3003/swagger-api.json after nest.js server is up.
 - You may always set alerts(telegram etc..)on each exception event 
 - All VALID data is saved in DB for future analytic purpose. 
+- For lw latency, you can implement cache such as redis to hold most recent calculated candidate in-memory but dependes on model.
 
 ### Test Result 
 - Currently, system executes the highest odds where system has received at the last moment. Unfortunately, they all lose if you just follow the highest odds at the last moment. You may check below DB through hasura console running in 61791 port.(Or just run **hasura console** at root)
