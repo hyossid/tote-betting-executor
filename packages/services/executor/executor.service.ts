@@ -16,6 +16,18 @@ export class DefaultExecutorService implements ExecutorService {
     private readonly customModuleService: CustomModuleService,
   ) {}
 
+  /**
+   * Processes input data
+   *
+   * @remarks
+   * This method is the main processing unit of executing component
+   *
+   * @param eventType - Given event type of race data
+   * @param timestamp - Given timestamp of race data
+   * @param payLoad - Actual payload
+   * @returns void
+   *
+   */
   async processData({
     eventType,
     timestamp,
@@ -72,6 +84,19 @@ export class DefaultExecutorService implements ExecutorService {
     return;
   }
 
+  /**
+   * Inserts data to configured database
+   *
+   * @remarks
+   * This method inserts processed data to database
+   *
+   * @param eventType - Given event type of race data
+   * @param raceNumber - Race number of given race data
+   * @param timestamp - Given timestamp of race data
+   * @param payLoad - Actual payload
+   * @returns void
+   *
+   */
   async insertData({
     eventType,
     raceNumber,
@@ -87,6 +112,18 @@ export class DefaultExecutorService implements ExecutorService {
     return;
   }
 
+  /**
+   * Handles Event type: UPDATE_ODDS
+   *
+   * @remarks
+   * This method inserts processed data to database
+   *
+   * @param raceNumber - Race number of given race data
+   * @param timestamp - Given timestamp of race data
+   * @param payLoad - Actual payload
+   * @returns void
+   *
+   */
   async handleUpdateOdds({
     raceNumber,
     timestamp,
@@ -115,6 +152,18 @@ export class DefaultExecutorService implements ExecutorService {
     return;
   }
 
+  /**
+   * Handles Event type: START_RACE
+   *
+   * @remarks
+   * This method handles event start race;
+   *
+   * @param raceNumber - Race number of given race data
+   * @param horseName - Horse candidate to be executed
+   * @param amount - Amount of bet
+   * @returns void
+   *
+   */
   async handleExecute({ raceNumber, horseName, amount }: any) {
     this.logger.log(
       `[INFO] Executing race ${raceNumber}, with ${horseName}; amount : ${amount}`,
@@ -131,6 +180,17 @@ export class DefaultExecutorService implements ExecutorService {
     return;
   }
 
+  /**
+   * Handles Event type: DIVIDENS
+   *
+   * @remarks
+   * This method handles event type dividens.
+   *
+   * @param raceNumber - Race number of given race data
+   * @param payLoad - dividends
+   * @returns void
+   *
+   */
   async handleDividends({ raceNumber, payLoad }: any) {
     this.logger.log(`[INFO] Saving Result of race ${raceNumber}`);
 
@@ -147,6 +207,17 @@ export class DefaultExecutorService implements ExecutorService {
     return;
   }
 
+  /**
+   * Handles data from the plugged model
+   *
+   * @remarks
+   * Users may implement model with this interface
+   *
+   * @param raceNumber - Race number of given race data
+   * @returns
+   * { horseName: latestOdds.candidate, amount: AMOUNT }
+   *
+   */
   async getResultFromModel(raceNumber: string) {
     this.logger.log(`[INFO] Model RUNNING ${raceNumber}`);
 
@@ -165,6 +236,18 @@ export class DefaultExecutorService implements ExecutorService {
 
     return { horseName: latestOdds.candidate, amount: AMOUNT };
   }
+
+  /**
+   * Get race results from the database
+   *
+   * @remarks
+   * Get race results from the database
+   *
+   * @param raceNumber - Race number of given race data
+   * @returns
+   *
+   *
+   */
 
   async getRaceResult({ raceNumber }: ReleaseExecutorDto) {
     const raceResult = (
