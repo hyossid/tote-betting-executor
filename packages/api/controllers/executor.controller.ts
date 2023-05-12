@@ -68,6 +68,13 @@ export class ExecutorController {
     private readonly executorService: ExecutorService,
   ) {}
 
+  /**
+   * Endpoint for incoming messages
+   *
+   * @remarks
+   * Input endpoint for all incoming data
+   *
+   */
   @Post('/v1/message')
   async createIncomingMessage(
     @Body()
@@ -90,6 +97,13 @@ export class ExecutorController {
     }
   }
 
+  /**
+   * Endpoint for retrieving race result
+   *
+   * @remarks
+   * Get the result of queried race_number
+   *
+   */
   @Get('/v1/race_result')
   async getRaceResult(
     @Query('race_number') { raceNumber }: CreateRaceResultRequest,

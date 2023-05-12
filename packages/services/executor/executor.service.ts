@@ -246,7 +246,6 @@ export class DefaultExecutorService implements ExecutorService {
    * @param raceNumber - Race number of given race data
    * @returns
    *
-   *
    */
 
   async getRaceResult({ raceNumber }: ReleaseExecutorDto) {
